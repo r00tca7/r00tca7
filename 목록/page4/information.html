@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디스코드 웹훅 전송</title>
+    <style>
+        /* 기본 스타일 설정 */
+        body {
+            font-family: Arial, sans-serif; /* 글꼴 설정 */
+            background-color: #f4f4f4; /* 배경색 설정 */
+            margin: 0; /* 기본 여백 제거 */
+            padding: 20px; /* 내부 여백 설정 */
+        }
+
+        h1 {
+            text-align: center; /* 제목 중앙 정렬 */
+            color: #7289da; /* 제목 색상 설정 */
+        }
+
+        form {
+            max-width: 500px; /* 폼 최대 너비 설정 */
+            margin: 0 auto; /* 폼 중앙 정렬 */
+            padding: 20px; /* 폼 내부 여백 설정 */
+            background: white; /* 폼 배경색 설정 */
+            border-radius: 8px; /* 모서리 둥글게 처리 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        }
+
+        label {
+            margin-bottom: 8px; /* 레이블 아래 여백 설정 */
+            display: block; /* 레이블을 블록 요소로 설정 */
+            color: #333; /* 레이블 색상 설정 */
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%; /* 입력 필드 너비 100% 설정 */
+            padding: 10px; /* 입력 필드 내부 여백 설정 */
+            margin-bottom: 15px; /* 입력 필드 아래 여백 설정 */
+            border: 1px solid #ccc; /* 테두리 설정 */
+            border-radius: 4px; /* 모서리 둥글게 처리 */
+        }
+
+        button {
+            width: 100%; /* 버튼 너비 100% 설정 */
+            padding: 10px; /* 버튼 내부 여백 설정 */
+            background-color: #7289da; /* 버튼 배경색 설정 */
+            color: white; /* 버튼 글자색 설정 */
+            border: none; /* 버튼 테두리 제거 */
+            border-radius: 4px; /* 버튼 모서리 둥글게 처리 */
+            cursor: pointer; /* 마우스 커서 포인터로 변경 */
+            font-size: 16px; /* 버튼 글자 크기 설정 */
+        }
+
+        button:hover {
+            background-color: #5b6eae; /* 버튼 호버 시 배경색 변경 */
+        }
+
+        .alert {
+            text-align: center; /* 경고 메시지 중앙 정렬 */
+            margin-top: 10px; /* 위쪽 여백 설정 */
+            color: red; /* 경고 메시지 색상 설정 */
+        }
+    </style>
+</head>
+<body>
+    <h1>디스코드 웹훅 메시지 전송</h1>
+    <form id="webhookForm">
+        <label for="message">메시지:</label>
+        <input type="text" id="message" name="message" required> <!-- 메시지 입력 필드 -->
+
+        <label for="file">파일 업로드:</label>
+        <input type="file" id="file" name="file"> <!-- 파일 업로드 필드 -->
+
+        <button type="submit">전송</button> <!-- 전송 버튼 -->
+        <div class="alert" id="alertMessage"></div> <!-- 경고 메시지 출력 영역 -->
+    </form>
+
+    <script>
+        // 폼 제출 이벤트 리스너
+        document.getElementById('webhookForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 기본 제출 동작 방지
+
+            const message = document.getElementById('message').value; // 입력된 메시지 가져오기
+            const fileInput = document.getElementById('file'); // 파일 입력 필드 가져오기
+            const webhookUrl = 'https://naver.com'; // 디스코드 웹훅 URL
+
+            const formData = new FormData(); // 새로운 FormData 객체 생성
+            formData.append('content', message); // 메시지를 FormData에 추가
+
+            // 파일이 선택되었으면 FormData에 추가
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+
+            // Fetch API를 사용하여 웹훅에 POST 요청 전송
+            fetch(webhookUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // 응답 상태 확인
+                if (response.ok) {
+                    document.getElementById('alertMessage').innerText = '메시지가 성공적으로 전송되었습니다!'; // 성공 메시지
+                    document.getElementById('alertMessage').style.color = 'green'; // 메시지 색상 변경
+                } else {
+                    document.getElementById('alertMessage').innerText = '메시지 전송에 실패했습니다.'; // 실패 메시지
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error); // 오류 로그 출력
+                document.getElementById('alertMessage').innerText = '전송 중 오류가 발생했습니다.'; // 오류 메시지
+            });
+        });
+    </script>
+</body>
+</html>
