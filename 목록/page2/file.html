@@ -60,6 +60,7 @@
 
     <script>
         let encryptedFileContent = '';
+        let originalFileName = '';
 
         function encryptFile() {
             const fileInput = document.getElementById('fileInput');
@@ -71,11 +72,11 @@
             }
 
             const file = fileInput.files[0];
+            originalFileName = file.name; // 원본 파일 이름 저장
             const reader = new FileReader();
 
             reader.onload = function(e) {
                 const fileContent = e.target.result;
-                // ArrayBuffer를 Base64로 변환하여 암호화
                 const wordArray = CryptoJS.lib.WordArray.create(new Uint8Array(fileContent));
                 encryptedFileContent = CryptoJS.AES.encrypt(wordArray, key).toString();
                 alert('파일이 암호화되었습니다. 암호화된 내용을 다운로드할 수 있습니다.');
@@ -115,8 +116,6 @@
 
             reader.onload = function(e) {
                 const encryptedContent = e.target.result;
-                
-                // Base64로 암호화된 내용을 복호화
                 const decrypted = CryptoJS.AES.decrypt(encryptedContent.toString(), key);
                 const originalArray = decrypted.words;
 
@@ -130,11 +129,12 @@
                 }
 
                 if (decrypted.sigBytes > 0) {
+                    const originalExtension = originalFileName.split('.').pop(); // 원본 파일의 확장자 추출
                     const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
                     const url = URL.createObjectURL(blob);
                     const downloadLink = document.getElementById('downloadDecryptedFile');
                     downloadLink.href = url;
-                    downloadLink.download = 'decrypted_file'; // 기본 파일 이름
+                    downloadLink.download = 'decrypted_file.' + originalExtension; // 원본 확장자로 저장
                     downloadLink.style.display = 'block';
                     downloadLink.textContent = '복호화된 파일 다운로드';
                 } else {
