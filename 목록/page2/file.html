@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>파일 암호화/복호화</title>
+    <title>파일 암호화/복호화s</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -117,17 +117,11 @@
                 const encryptedContent = e.target.result;
                 // Base64로 암호화된 내용을 복호화
                 const decrypted = CryptoJS.AES.decrypt(encryptedContent.toString(), key);
-                const originalArray = decrypted.words;
-                const uint8Array = new Uint8Array(originalArray.length * 4);
-                for (let i = 0; i < originalArray.length; i++) {
-                    uint8Array[i * 4] = (originalArray[i] >> 24) & 0xff;
-                    uint8Array[i * 4 + 1] = (originalArray[i] >> 16) & 0xff;
-                    uint8Array[i * 4 + 2] = (originalArray[i] >> 8) & 0xff;
-                    uint8Array[i * 4 + 3] = originalArray[i] & 0xff;
-                }
+                const originalText = decrypted.toString(CryptoJS.enc.Utf8); // UTF-8로 변환
 
-                if (decrypted.sigBytes > 0) {
-                    const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
+                if (originalText) {
+                    const byteArray = CryptoJS.enc.Base64.parse(originalText);
+                    const blob = new Blob([byteArray.words], { type: 'application/octet-stream' });
                     const url = URL.createObjectURL(blob);
                     const downloadLink = document.getElementById('downloadDecryptedFile');
                     downloadLink.href = url;
@@ -139,7 +133,7 @@
                 }
             };
 
-            reader.readAsArrayBuffer(file);
+            reader.readAsText(file);
         }
     </script>
 
