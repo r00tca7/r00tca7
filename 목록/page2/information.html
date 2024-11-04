@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES 암호화 표준 설명</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #0056b3;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <h1>AES(고급 암호화 표준)</h1>
+        <h2>1. 대칭 키 암호화</h2>
+        <ul>
+            <li><strong>대칭 키:</strong> AES는 암호화와 복호화에 동일한 키를 사용합니다.</li>
+            <li><strong>키 관리:</strong> 키의 안전한 저장과 관리는 매우 중요합니다.</li>
+        </ul>
+
+        <h2>2. 블록 암호화</h2>
+        <ul>
+            <li><strong>블록 단위 처리:</strong> AES는 128비트 블록으로 데이터를 나누어 처리합니다.</li>
+            <li><strong>블록 크기:</strong> AES는 128비트 블록 크기를 사용하며, 키 길이는 128비트, 192비트, 256비트가 있습니다.</li>
+        </ul>
+
+        <h2>3. 안전성</h2>
+        <ul>
+            <li><strong>강력한 보안:</strong> AES는 강력한 보안성을 제공하여 현재까지 알려진 공격에 대해 안전합니다.</li>
+            <li><strong>표준화:</strong> 2001년에 NIST에 의해 표준으로 채택되었습니다.</li>
+        </ul>
+
+        <h2>4. 작동 방식</h2>
+        <ul>
+            <li><strong>라운드:</strong> AES는 여러 개의 라운드를 통해 암호화하며, 라운드 수는 키 길이에 따라 다릅니다.</li>
+            <li><strong>연산:</strong> 각 라운드는 바이트 대체, 행 이동, 열 혼합, 키 추가의 네 가지 단계를 포함합니다.</li>
+        </ul>
+
+        <h2>5. 용도</h2>
+        <ul>
+            <li>AES는 파일 암호화, 통신 보안, 데이터베이스 보호 등 다양한 분야에서 사용됩니다.</li>
+            <li>또한 TLS, VPN, SSH 등의 보안 프로토콜에서도 핵심적으로 사용됩니다.</li>
+        </ul>
+        
+        <h2>결론</h2>
+        <p>AES는 강력한 보안성과 효율성 덕분에 현대 데이터 보호의 표준으로 자리 잡고 있습니다.</p>
+    </div>
+
+</body>
+</html>
