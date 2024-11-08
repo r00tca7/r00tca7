@@ -3,66 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 페이지</title>
+    <title>목록 페이지</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
 
-        .login-container {
+        h2 {
+            text-align: center;
+        }
+
+        .link-container {
+            max-width: 600px;
+            margin: auto;
             background: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #4cae4c;
-        }
-
-        #message {
-            text-align: center;
-            margin-top: 15px;
-            color: red;
+            text-align: center; /* 중앙 정렬 추가 */
         }
 
         .profile-image {
@@ -72,26 +32,31 @@
             margin-bottom: 15px;
             object-fit: cover;
         }
+
+        .link {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #5cb85c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .link:hover {
+            background-color: #4cae4c;
+        }
     </style>
 </head>
 <body>
-    <div id="loginPage" class="login-container">
+    <div class="link-container">
         <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
-        <h2>로그인</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">아이디</label>
-                <input type="text" id="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" required>
-            </div>
-            <button type="submit">로그인</button>
-            <p id="message"></p>
-        </form>
+        <h2>목록</h2>
+        <a href="page1/index.html" class="link">포트폴리오</a>
+        <a href="page2/index.html" class="link">텍스트 암호화</a>
+        <a href="page3/index.html" class="link">노션 포트폴리오</a>
+        <a href="page4/index.html" class="link">메세지 전송</a>
+        <a href="page5/index.html" class="link">군생활 중 공부</a>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
