@@ -22,13 +22,21 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* 중앙 정렬 추가 */
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
         }
 
         .link {
             display: block;
             padding: 10px;
             margin: 10px 0;
-            text-align: center;
             background-color: #5cb85c;
             color: white;
             text-decoration: none;
@@ -38,15 +46,12 @@
         .link:hover {
             background-color: #4cae4c;
         }
-
-        .link-container a {
-            text-align: center;
-            width: 100%;
-        }
     </style>
 </head>
 <body>
     <div class="link-container">
+        <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
+        <h1>Root Cat</h1>
         <h2>목록</h2>
         <a href="page1/index.html" class="link">포트폴리오</a>
         <a href="page2/index.html" class="link">텍스트 암호화</a>
