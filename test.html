@@ -3,62 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>목록 페이지</title>
+    <title>파일 암호화/복호화</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
-
-        .link-container {
-            max-width: 800px;
-            background: white;
-            padding: 40px; 
-            border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        h1 {
             text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
         }
-
-        .profile-image {
-            width: 150px; 
-            height: 150px; 
-            border-radius: 50%;
-            margin-bottom: 20px; 
-            object-fit: cover;
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .link {
-            display: block;
-            padding: 15px; 
-            margin: 15px 0; 
-            background-color: #5cb85c;
-            color: white;
-            text-decoration: none;
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+        input[type="file"],
+        input[type="password"],
+        input[type="text"],
+        button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 18px; 
+            font-size: 16px;
         }
-
-        .link:hover {
-            background-color: #4cae4c;
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 </head>
 <body>
-    <div class="link-container">
-        <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
-        <h1>Root Cat</h1>
-        <h2>목록</h2>
-        <a href="page1/index.html" class="link">포트폴리오</a>
-        <a href="page2/index.html" class="link">텍스트 암호화</a>
-        <a href="page3/index.html" class="link">노션 포트폴리오</a>
-        <a href="page4/index.html" class="link">메세지 전송</a>
-        <a href="page5/index.html" class="link">군생활 중 공부</a>
+
+    <div class="container">
+        <h1>파일 암호화/복호화</h1>
+        
+        <h2>파일 암호화</h2>
+        <input type="file" id="fileInput" />
+        <input type="password" id="encryptionKey" placeholder="암호화 키 입력" />
+        <button onclick="encryptFile()">파일 암호화</button>
+        <input type="text" id="encryptedFileName" placeholder="암호화된 파일 이름 (예: encrypted.bin)" />
+        <button onclick="downloadEncryptedFile()">암호화된 파일 다운로드</button>
+
+        <h2>파일 복호화</h2>
+        <input type="file" id="encryptedFileInput" />
+        <input type="password" id="decryptKey" placeholder="복호화 키 입력" />
+        <button onclick="decryptFile()">파일 복호화</button>
+        <a id="downloadDecryptedFile" style="display:none;">복호화된 파일 다운로드</a>
     </div>
+
+    <script>
+        let encryptedFileContent = '';
+        let originalFileName = '';
+
+        function encryptFile() {
+            const fileInput = document.getElementById('fileInput');
+            const key = document.getElementById('encryptionKey').value;
+
+            if (fileInput.files.length === 0 || key === '') {
+                alert('파일과 암호화 키를 입력하세요.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            originalFileName = file.name;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const fileContent = e.target.result;
+                const wordArray = CryptoJS.lib.WordArray.create(new Uint8Array(fileContent));
+                encryptedFileContent = CryptoJS.AES.encrypt(wordArray, key).toString();
+                alert('파일이 암호화되었습니다. 암호화된 내용을 다운로드할 수 있습니다.');
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadEncryptedFile() {
+            if (!encryptedFileContent) {
+                alert('먼저 파일을 암호화하세요.');
+                return;
+            }
+            const fileName = document.getElementById('encryptedFileName').value || 'encrypted.bin';
+            const blob = new Blob([encryptedFileContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function decryptFile() {
+            const fileInput = document.getElementById('encryptedFileInput');
+            const key = document.getElementById('decryptKey').value;
+
+            if (fileInput.files.length === 0 || key === '') {
+                alert('암호화된 파일과 복호화 키를 입력하세요.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const encryptedContent = e.target.result;
+                const decrypted = CryptoJS.AES.decrypt(encryptedContent.toString(), key);
+                const originalArray = decrypted.words;
+
+                const uint8Array = new Uint8Array(originalArray.length * 4);
+                for (let i = 0; i < originalArray.length; i++) {
+                    uint8Array[i * 4] = (originalArray[i] >> 24) & 0xff;
+                    uint8Array[i * 4 + 1] = (originalArray[i] >> 16) & 0xff;
+                    uint8Array[i * 4 + 2] = (originalArray[i] >> 8) & 0xff;
+                    uint8Array[i * 4 + 3] = originalArray[i] & 0xff;
+                }
+
+                if (decrypted.sigBytes > 0) {
+                    const originalExtension = originalFileName.split('.').pop();
+                    const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
+                    const url = URL.createObjectURL(blob);
+                    const downloadLink = document.getElementById('downloadDecryptedFile');
+                    downloadLink.href = url;
+                    downloadLink.download = 'decrypted_file.' + originalExtension;
+                    downloadLink.style.display = 'block';
+                    downloadLink.textContent = '복호화된 파일 다운로드';
+                } else {
+                    alert('복호화에 실패했습니다. 키가 올바른지 확인하세요.');
+                }
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+
 </body>
 </html>
