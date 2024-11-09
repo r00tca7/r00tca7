@@ -51,9 +51,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .delete-button {
-            background-color: #dc3545;
-        }
     </style>
 </head>
 <body>
@@ -84,24 +81,9 @@
                 saveMemo(id);
             };
 
-            const loadButton = document.createElement('button');
-            loadButton.innerText = '불러오기';
-            loadButton.onclick = function() {
-                loadMemo(id);
-            };
-
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = '삭제';
-            deleteButton.className = 'delete-button';
-            deleteButton.onclick = function() {
-                deleteMemo(id);
-            };
-
             memoContainer.appendChild(titleInput);
             memoContainer.appendChild(contentInput);
             memoContainer.appendChild(saveButton);
-            memoContainer.appendChild(loadButton);
-            memoContainer.appendChild(deleteButton);
             document.getElementById('memos').appendChild(memoContainer);
         }
 
@@ -114,31 +96,17 @@
                 return;
             }
 
-            const memo = {
-                title: title,
-                content: content
-            };
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
 
-            localStorage.setItem(`memo-${id}`, JSON.stringify(memo));
             alert('메모가 저장되었습니다.');
-        }
-
-        function loadMemo(id) {
-            const memo = localStorage.getItem(`memo-${id}`);
-            if (memo) {
-                const { title, content } = JSON.parse(memo);
-                document.getElementById(`title-${id}`).value = title;
-                document.getElementById(`content-${id}`).value = content;
-                alert('메모가 불러와졌습니다.');
-            } else {
-                alert('저장된 메모가 없습니다.');
-            }
-        }
-
-        function deleteMemo(id) {
-            localStorage.removeItem(`memo-${id}`);
-            alert('메모가 삭제되었습니다.');
-            document.getElementById(`title-${id}`).parentElement.remove();
         }
     </script>
 
