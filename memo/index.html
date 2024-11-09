@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메모 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .memo-container {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .add-button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>메모 목록</h1>
+    <button class="add-button" onclick="openCreateMemo()">새 메모 추가</button>
+    <div id="memoList"></div>
+
+    <script>
+        function openCreateMemo() {
+            window.open('create.html', '_blank'); // 새 메모 추가 페이지를 새 탭에서 열기
+        }
+
+        function loadMemoList() {
+            const memoListDiv = document.getElementById('memoList');
+            memoListDiv.innerHTML = ''; // 기존 목록 초기화
+
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('memo-')) {
+                    const memo = JSON.parse(localStorage.getItem(key));
+                    const memoItem = document.createElement('div');
+                    memoItem.className = 'memo-container';
+                    memoItem.innerHTML = `
+                        <strong>${memo.title}</strong><br>${memo.content}<br>
+                        <button onclick="openEditMemo('${key}')">수정</button>
+                        <button onclick="deleteMemo('${key}')">삭제</button>
+                    `;
+                    memoListDiv.appendChild(memoItem);
+                }
+            });
+        }
+
+        function openEditMemo(key) {
+            window.open(`edit.html?key=${encodeURIComponent(key)}`, '_blank'); // 수정 페이지를 새 탭에서 열기
+        }
+
+        function deleteMemo(key) {
+            localStorage.removeItem(key);
+            alert('메모가 삭제되었습니다.');
+            loadMemoList(); // 메모 목록 갱신
+        }
+
+        // 페이지 로드 시 메모 목록 불러오기
+        window.onload = loadMemoList;
+    </script>
+
+</body>
+</html>
