@@ -26,6 +26,7 @@
             font-size: 18px;
             font-weight: bold;
             color: #333;
+            cursor: pointer; /* 포인터 커서 추가 */
         }
         .memo-content {
             margin: 10px 0;
@@ -95,7 +96,7 @@
                 const memoItem = document.createElement('div');
                 memoItem.className = 'memo-container';
                 memoItem.innerHTML = `
-                    <div class="memo-title">${memo.title}</div>
+                    <div class="memo-title" onclick="openReadMemo('${key}')">${memo.title}</div>
                     <div class="memo-content">${memo.content}</div>
                     <button onclick="openEditMemo('${key}')">수정</button>
                     <button onclick="deleteMemo('${key}')">삭제</button>
@@ -119,6 +120,10 @@
                 };
                 paginationDiv.appendChild(button);
             }
+        }
+
+        function openReadMemo(key) {
+            window.open(`read.html?key=${encodeURIComponent(key)}`, '_blank'); // 읽기 페이지를 새 탭에서 열기
         }
 
         function openEditMemo(key) {
