@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>파일 암호화/복호화</title>
+    <title>메모 작성기</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,27 +14,19 @@
         h1 {
             text-align: center;
             color: #007BFF;
-            margin-bottom: 20px;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 30px;
+        .memo-container {
+            margin: 15px 0;
+            padding: 15px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        h2 {
-            color: #333;
-            margin-top: 20px;
-        }
-        input[type="file"],
-        input[type="password"],
         input[type="text"],
-        button {
+        textarea {
             width: 100%;
             margin: 10px 0;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
@@ -43,127 +35,73 @@
             background-color: #28a745;
             color: white;
             border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
             background-color: #218838;
         }
-        a {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-            color: #007BFF;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+        .add-button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 </head>
 <body>
 
-    <div class="container">
-        <h1>파일 암호화/복호화</h1>
-        
-        <h2>파일 암호화</h2>
-        <input type="file" id="fileInput" />
-        <input type="password" id="encryptionKey" placeholder="암호화 키 입력" />
-        <button onclick="encryptFile()">파일 암호화</button>
-        <input type="text" id="encryptedFileName" placeholder="암호화된 파일 이름 (예: encrypted.bin)" />
-        <button onclick="downloadEncryptedFile()">암호화된 파일 다운로드</button>
-
-        <h2>파일 복호화</h2>
-        <input type="file" id="encryptedFileInput" />
-        <input type="password" id="decryptKey" placeholder="복호화 키 입력" />
-        <button onclick="decryptFile()">파일 복호화</button>
-        <a id="downloadDecryptedFile" style="display:none;">복호화된 파일 다운로드</a>
-    </div>
+    <h1>메모 작성기</h1>
+    <button class="add-button" onclick="addMemo()">+</button>
+    <div id="memos"></div>
 
     <script>
-        let encryptedFileContent = '';
-        let originalFileName = '';
+        function addMemo() {
+            const memoContainer = document.createElement('div');
+            memoContainer.className = 'memo-container';
 
-        function encryptFile() {
-            const fileInput = document.getElementById('fileInput');
-            const key = document.getElementById('encryptionKey').value;
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.placeholder = '제목을 입력하세요';
 
-            if (fileInput.files.length === 0 || key === '') {
-                alert('파일과 암호화 키를 입력하세요.');
-                return;
-            }
+            const contentInput = document.createElement('textarea');
+            contentInput.placeholder = '메모 내용을 입력하세요';
+            contentInput.rows = 4;
 
-            const file = fileInput.files[0];
-            originalFileName = file.name;
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const fileContent = e.target.result;
-                const wordArray = CryptoJS.lib.WordArray.create(new Uint8Array(fileContent));
-                encryptedFileContent = CryptoJS.AES.encrypt(wordArray, key).toString();
-                alert('파일이 암호화되었습니다. 암호화된 내용을 다운로드할 수 있습니다.');
+            const saveButton = document.createElement('button');
+            saveButton.innerText = '저장';
+            saveButton.onclick = function() {
+                saveMemo(titleInput.value, contentInput.value);
             };
 
-            reader.readAsArrayBuffer(file);
+            memoContainer.appendChild(titleInput);
+            memoContainer.appendChild(contentInput);
+            memoContainer.appendChild(saveButton);
+            document.getElementById('memos').appendChild(memoContainer);
         }
 
-        function downloadEncryptedFile() {
-            if (!encryptedFileContent) {
-                alert('먼저 파일을 암호화하세요.');
+        function saveMemo(title, content) {
+            if (!title || !content) {
+                alert('제목과 내용을 모두 입력하세요.');
                 return;
             }
-            const fileName = document.getElementById('encryptedFileName').value || 'encrypted.bin';
-            const blob = new Blob([encryptedFileContent], { type: 'text/plain' });
+
+            const blob = new Blob([content], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = fileName;
+            a.download = `${title}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }
 
-        function decryptFile() {
-            const fileInput = document.getElementById('encryptedFileInput');
-            const key = document.getElementById('decryptKey').value;
-
-            if (fileInput.files.length === 0 || key === '') {
-                alert('암호화된 파일과 복호화 키를 입력하세요.');
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const encryptedContent = e.target.result;
-                const decrypted = CryptoJS.AES.decrypt(encryptedContent.toString(), key);
-                const originalArray = decrypted.words;
-
-                const uint8Array = new Uint8Array(originalArray.length * 4);
-                for (let i = 0; i < originalArray.length; i++) {
-                    uint8Array[i * 4] = (originalArray[i] >> 24) & 0xff;
-                    uint8Array[i * 4 + 1] = (originalArray[i] >> 16) & 0xff;
-                    uint8Array[i * 4 + 2] = (originalArray[i] >> 8) & 0xff;
-                    uint8Array[i * 4 + 3] = originalArray[i] & 0xff;
-                }
-
-                if (decrypted.sigBytes > 0) {
-                    const originalExtension = originalFileName.split('.').pop();
-                    const blob = new Blob([uint8Array], { type: 'application/octet-stream' });
-                    const url = URL.createObjectURL(blob);
-                    const downloadLink = document.getElementById('downloadDecryptedFile');
-                    downloadLink.href = url;
-                    downloadLink.download = 'decrypted_file.' + originalExtension;
-                    downloadLink.style.display = 'block';
-                    downloadLink.textContent = '복호화된 파일 다운로드';
-                } else {
-                    alert('복호화에 실패했습니다. 키가 올바른지 확인하세요.');
-                }
-            };
-
-            reader.readAsText(file);
+            // 메모 저장 후 메모 내용 초기화
+            alert('메모가 저장되었습니다.');
         }
     </script>
 
