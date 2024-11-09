@@ -53,6 +53,19 @@
         }
         .memo-list {
             margin-top: 20px;
+            max-height: 400px; /* 최대 높이 지정 */
+            overflow-y: auto; /* 세로 스크롤 추가 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background: #fff;
+        }
+        .memo-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .memo-item:last-child {
+            border-bottom: none; /* 마지막 메모의 경계선 제거 */
         }
     </style>
 </head>
@@ -60,7 +73,6 @@
 
     <h1>메모 작성기</h1>
     <button class="add-button" onclick="addMemo()">+</button>
-    <div id="memos"></div>
     <div class="memo-list" id="memoList"></div>
 
     <script>
@@ -88,7 +100,7 @@
             memoContainer.appendChild(titleInput);
             memoContainer.appendChild(contentInput);
             memoContainer.appendChild(saveButton);
-            document.getElementById('memos').appendChild(memoContainer);
+            document.getElementById('memoList').appendChild(memoContainer);
         }
 
         function saveMemo(id) {
@@ -114,7 +126,7 @@
                 if (key.startsWith('memo-')) {
                     const memo = JSON.parse(localStorage.getItem(key));
                     const memoItem = document.createElement('div');
-                    memoItem.className = 'memo-container';
+                    memoItem.className = 'memo-item';
                     memoItem.innerHTML = `
                         <strong>${memo.title}</strong><br>${memo.content}<br>
                         <button onclick="editMemo('${key}')">수정</button>
