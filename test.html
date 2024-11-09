@@ -115,10 +115,24 @@
                     const memo = JSON.parse(localStorage.getItem(key));
                     const memoItem = document.createElement('div');
                     memoItem.className = 'memo-container';
-                    memoItem.innerHTML = `<strong>${memo.title}</strong><br>${memo.content}<br><button onclick="deleteMemo('${key}')">삭제</button>`;
+                    memoItem.innerHTML = `<strong>${memo.title}</strong><br>${memo.content}<br>
+                                          <button onclick="editMemo('${key}')">수정</button>
+                                          <button onclick="deleteMemo('${key}')">삭제</button>`;
                     memoListDiv.appendChild(memoItem);
                 }
             });
+        }
+
+        function editMemo(key) {
+            const memo = JSON.parse(localStorage.getItem(key));
+            const titleInput = document.getElementById(`title-${key.split('-')[1]}`);
+            const contentInput = document.getElementById(`content-${key.split('-')[1]}`);
+            if (titleInput && contentInput) {
+                titleInput.value = memo.title;
+                contentInput.value = memo.content;
+            } else {
+                alert('해당 메모를 찾을 수 없습니다.');
+            }
         }
 
         function deleteMemo(key) {
