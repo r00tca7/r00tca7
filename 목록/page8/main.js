@@ -15,7 +15,7 @@ class CellData{
         this.state = state;
     }
 }
- 
+
 class CellModel{
     cells = new Map();
     //셀 초기화 좌표를 key 셀을 value로 매핑
@@ -27,22 +27,22 @@ class CellModel{
             }
         }
     }
- 
+
     getCellProperty(row, col){
         let key = row+","+col;
         return this.cells.get(key).getProperty();
     }
- 
+
     setCellProperty(row, col, property){
         let key = row+","+col;
         this.cells.get(key).setProperty(property);
     }
- 
+
     getCellState(row, col){
         let key = row+","+col;
         return this.cells.get(key).getState();
     }
- 
+
     setCellState(row, col, state){
         let key = row+","+col;
         this.cells.get(key).setState(state);
@@ -51,12 +51,12 @@ class CellModel{
     getRandomNumbers(){
         let randomNumber = 0;
         const randomNumbers = new Set();
- 
+
         while(randomNumbers.size!=mineCount){
             randomNumber = Math.floor(Math.random()*(rowSize*columnSize));
             randomNumbers.add(randomNumber);
         }
- 
+
         return randomNumbers;
     }
     //랜덤으로 뽑힌 숫자에 해당하는 좌표에 지뢰 심기
@@ -72,7 +72,7 @@ class CellModel{
         let randomNumbers = this.getRandomNumbers();
         this.putMine(randomNumbers);
     }
- 
+
     initCellsProperty(){
         for(let row=0; row<rowSize; row++){
             for(let col=0; col<columnSize; col++){
@@ -188,15 +188,15 @@ class CellModel{
         }
         return mineCountAroundCell;
     }
- 
+
     newGame(){
         this.initCells();
         this.initMine();
         this.initCellsProperty();
     }
- 
+
 }
- 
+
 class Presenter{
     cellModel = new CellModel();
     newGame(){
@@ -211,7 +211,7 @@ class Presenter{
         let rowNum = Number(row);
         let colNum = Number(col);
         // 타입을 정해주지 않아서 에러 발생했음
- 
+
         let flagedCellCount = 0;
         
         if(this.isFlagedCell(rowNum+1, colNum+1))
@@ -230,7 +230,7 @@ class Presenter{
             flagedCellCount++;
         if(this.isFlagedCell(rowNum-1, colNum-1))
             flagedCellCount++;
- 
+
         return flagedCellCount;
     }
     
@@ -243,7 +243,7 @@ class Presenter{
                 return false;
         }
     }
- 
+
     //마우스 좌우 동시클릭 주변8칸 오픈
     checkAroundCells(row, col){
         let rowNum = Number(row);
@@ -274,13 +274,13 @@ class Presenter{
                 else if(property==0){
                     this.openCell(rowNum, colNum);
                     this.checkSingleCell(rowNum+1,colNum+1);
-                    this.checkSingleCell(rowNum+1,colNum);
-                    this.checkSingleCell(rowNum+1,colNum-1);
-                    this.checkSingleCell(rowNum,colNum+1);
-                    this.checkSingleCell(rowNum,colNum-1);
-                    this.checkSingleCell(rowNum-1,colNum+1);
-                    this.checkSingleCell(rowNum-1,colNum);
-                    this.checkSingleCell(rowNum-1,colNum-1);
+					this.checkSingleCell(rowNum+1,colNum);
+					this.checkSingleCell(rowNum+1,colNum-1);
+					this.checkSingleCell(rowNum,colNum+1);
+					this.checkSingleCell(rowNum,colNum-1);
+					this.checkSingleCell(rowNum-1,colNum+1);
+					this.checkSingleCell(rowNum-1,colNum);
+					this.checkSingleCell(rowNum-1,colNum-1);
                 }
                 else
                     this.openCell(rowNum, colNum);
@@ -291,7 +291,7 @@ class Presenter{
                 return;
             else if(state == FLAGED)
                 return;
- 
+
             if(this.isVictory()){
                 this.clearMessage();
                 timerStop();
@@ -313,7 +313,7 @@ class Presenter{
                     flagedCell++;
             }
         }
- 
+
         if(opendCell + flagedCell == rowSize*columnSize){
             isVictory=true;
         }
@@ -326,7 +326,7 @@ class Presenter{
         $('.row'+row+".col"+col).css('height','100%');
         $('.row'+row+".col"+col).css('width','100%');
         $('.row'+row+".col"+col).css('border','1px solid var(--black-color)');
- 
+
         if(property==0){
             $('.row'+row+".col"+col).css('background-color','var(--grey-light-color)');
         }
@@ -343,7 +343,7 @@ class Presenter{
                 $('.row'+row+".col"+col).css('color','magenta');
             else
                 $('.row'+row+".col"+col).css('color','black');
- 
+
             $('.row'+row+".col"+col).text(property);
         }
     }
@@ -423,27 +423,27 @@ class Presenter{
         this.cellModel.setCellState(row, col, COVERED);
         $('.cell.row'+row+".col"+col).empty();
     }
- 
+
 }
- 
+
 const presenter = new Presenter();
- 
+
 let MINE = 9;       
 let COVERED = 0;
 let OPENED = 1;
 let FLAGED = 2;
 let QUESTIONED = 3;
- 
+
 let rowSize = 10;
 let columnSize = 8;
 let mineCount = 10;
- 
+
 let time = 0;
 let timerOn = false;
- 
+
 let leftClicked = false;
 let rightClicked = false;
- 
+
 //난이도 선택
 function selectDifficulty(e){
     let difficulty = $(e.target).text();
@@ -493,7 +493,7 @@ function setGameProperties(difficulty){
         $('.cells').css('grid-auto-rows', '24px');
     }
     else{
- 
+
     }
 }
 //마우스 눌렸을 때
@@ -520,7 +520,7 @@ function mouseDown(e){
         rightClicked = true;
         presenter.rightClicked(row, col);
     }
- 
+
     if(leftClicked&&rightClicked)
         presenter.checkAroundCells(row,col);
 }
@@ -548,7 +548,7 @@ function timer(){
     timer();},1000);
     $('.timer').text(time);
 }
- 
+
 $(document).ready(function(){
     $('.cells').on('contextmenu',() => false);
     $('.difficultyLevelSelectionWindow').on('click',(e)=>selectDifficulty(e));
