@@ -51,6 +51,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .delete-button {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -63,44 +66,79 @@
         function addMemo() {
             const memoContainer = document.createElement('div');
             memoContainer.className = 'memo-container';
+            const id = Date.now(); // 고유 ID 생성
 
             const titleInput = document.createElement('input');
             titleInput.type = 'text';
             titleInput.placeholder = '제목을 입력하세요';
+            titleInput.id = `title-${id}`;
 
             const contentInput = document.createElement('textarea');
             contentInput.placeholder = '메모 내용을 입력하세요';
             contentInput.rows = 4;
+            contentInput.id = `content-${id}`;
 
             const saveButton = document.createElement('button');
             saveButton.innerText = '저장';
             saveButton.onclick = function() {
-                saveMemo(titleInput.value, contentInput.value);
+                saveMemo(id);
+            };
+
+            const loadButton = document.createElement('button');
+            loadButton.innerText = '불러오기';
+            loadButton.onclick = function() {
+                loadMemo(id);
+            };
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = '삭제';
+            deleteButton.className = 'delete-button';
+            deleteButton.onclick = function() {
+                deleteMemo(id);
             };
 
             memoContainer.appendChild(titleInput);
             memoContainer.appendChild(contentInput);
             memoContainer.appendChild(saveButton);
+            memoContainer.appendChild(loadButton);
+            memoContainer.appendChild(deleteButton);
             document.getElementById('memos').appendChild(memoContainer);
         }
 
-        function saveMemo(title, content) {
+        function saveMemo(id) {
+            const title = document.getElementById(`title-${id}`).value;
+            const content = document.getElementById(`content-${id}`).value;
+
             if (!title || !content) {
                 alert('제목과 내용을 모두 입력하세요.');
                 return;
             }
 
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${title}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            const memo = {
+                title: title,
+                content: content
+            };
 
+            localStorage.setItem(`memo-${id}`, JSON.stringify(memo));
             alert('메모가 저장되었습니다.');
+        }
+
+        function loadMemo(id) {
+            const memo = localStorage.getItem(`memo-${id}`);
+            if (memo) {
+                const { title, content } = JSON.parse(memo);
+                document.getElementById(`title-${id}`).value = title;
+                document.getElementById(`content-${id}`).value = content;
+                alert('메모가 불러와졌습니다.');
+            } else {
+                alert('저장된 메모가 없습니다.');
+            }
+        }
+
+        function deleteMemo(id) {
+            localStorage.removeItem(`memo-${id}`);
+            alert('메모가 삭제되었습니다.');
+            document.getElementById(`title-${id}`).parentElement.remove();
         }
     </script>
 
