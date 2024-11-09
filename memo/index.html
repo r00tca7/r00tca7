@@ -22,6 +22,15 @@
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+        .memo-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .memo-content {
+            margin: 10px 0;
+            color: #555;
+        }
         button {
             background-color: #28a745;
             color: white;
@@ -41,6 +50,18 @@
             color: white;
             border-radius: 5px;
             cursor: pointer;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            margin: 0 5px;
         }
     </style>
 </head>
@@ -49,8 +70,12 @@
     <h1>메모 목록</h1>
     <button class="add-button" onclick="openCreateMemo()">새 메모 추가</button>
     <div id="memoList"></div>
+    <div class="pagination" id="pagination"></div>
 
     <script>
+        const MEMO_PER_PAGE = 5; // 페이지당 메모 수
+        let currentPage = 1;
+
         function openCreateMemo() {
             window.open('create.html', '_blank'); // 새 메모 추가 페이지를 새 탭에서 열기
         }
@@ -59,19 +84,40 @@
             const memoListDiv = document.getElementById('memoList');
             memoListDiv.innerHTML = ''; // 기존 목록 초기화
 
-            Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('memo-')) {
-                    const memo = JSON.parse(localStorage.getItem(key));
-                    const memoItem = document.createElement('div');
-                    memoItem.className = 'memo-container';
-                    memoItem.innerHTML = `
-                        <strong>${memo.title}</strong><br>${memo.content}<br>
-                        <button onclick="openEditMemo('${key}')">수정</button>
-                        <button onclick="deleteMemo('${key}')">삭제</button>
-                    `;
-                    memoListDiv.appendChild(memoItem);
-                }
+            const keys = Object.keys(localStorage).filter(key => key.startsWith('memo-'));
+            const totalPages = Math.ceil(keys.length / MEMO_PER_PAGE);
+            const start = (currentPage - 1) * MEMO_PER_PAGE;
+            const end = start + MEMO_PER_PAGE;
+
+            keys.slice(start, end).forEach(key => {
+                const memo = JSON.parse(localStorage.getItem(key));
+                const memoItem = document.createElement('div');
+                memoItem.className = 'memo-container';
+                memoItem.innerHTML = `
+                    <div class="memo-title">${memo.title}</div>
+                    <div class="memo-content">${memo.content}</div>
+                    <button onclick="openEditMemo('${key}')">수정</button>
+                    <button onclick="deleteMemo('${key}')">삭제</button>
+                `;
+                memoListDiv.appendChild(memoItem);
             });
+
+            loadPagination(totalPages);
+        }
+
+        function loadPagination(totalPages) {
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = ''; // 기존 페이지네이션 초기화
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.onclick = function() {
+                    currentPage = i;
+                    loadMemoList();
+                };
+                paginationDiv.appendChild(button);
+            }
         }
 
         function openEditMemo(key) {
