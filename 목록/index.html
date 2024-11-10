@@ -14,6 +14,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .link-container {
@@ -23,6 +24,7 @@
             border-radius: 10px; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: background-color 0.3s;
         }
 
         .profile-image {
@@ -44,10 +46,11 @@
             display: block;
             padding: 15px; 
             background-color: #5cb85c;
-            color: white;
+            color: #333; /* 글씨 색상 */
             text-decoration: none;
             border-radius: 5px;
             font-size: 18px; 
+            font-weight: bold; /* 글씨 굵게 설정 */
             width: 150px; /* 카드 크기 조정 */
             text-align: center;
             transition: background-color 0.3s;
@@ -56,9 +59,48 @@
         .link:hover {
             background-color: #4cae4c;
         }
+
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: transparent; /* 플랫 모양 설정 */
+            color: #5cb85c; /* 글씨 색상 */
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .toggle-button:hover {
+            color: #4cae4c; /* 호버 시 색상 변경 */
+        }
+
+        /* 다크 모드 스타일 */
+        body.dark-mode {
+            background-color: #333;
+            color: white;
+        }
+
+        .link-container.dark-mode {
+            background: #444;
+        }
+
+        .link.dark-mode {
+            background-color: #666;
+            color: white;
+        }
+
+        .link.dark-mode:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 <body>
+    <button class="toggle-button" id="toggleButton">다크 모드</button>
     <div class="link-container">
         <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
         <h1>Root Cat</h1>
@@ -74,5 +116,24 @@
             <a href="page8/index.html" class="link">지뢰찾기 게임</a>
         </div>
     </div>
+
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const linkContainer = document.querySelector('.link-container');
+            const links = document.querySelectorAll('.link');
+
+            if (document.body.classList.contains('dark-mode')) {
+                linkContainer.classList.add('dark-mode');
+                links.forEach(link => link.classList.add('dark-mode'));
+                toggleButton.textContent = '화이트 모드';
+            } else {
+                linkContainer.classList.remove('dark-mode');
+                links.forEach(link => link.classList.remove('dark-mode'));
+                toggleButton.textContent = '다크 모드';
+            }
+        });
+    </script>
 </body>
 </html>
