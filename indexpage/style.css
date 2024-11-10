@@ -213,14 +213,14 @@ section .header{
     color: #ccc;
 }
 
-.pricing{
+.inventory{
     margin-top: 4rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
-.pricing .card{
+.inventory .card{
     padding: 3rem 2rem;
     background-color: #27272a;
     display: flex;
@@ -230,24 +230,24 @@ section .header{
     transition: all 0.3s ease;
 }
 
-.pricing .card:hover{
+.inventory .card:hover{
     background-color: #323232;
     border-color: #fff;
 }
 
-.pricing .card .content{
+.inventory .card .content{
     flex: 1;
     margin-bottom: 2rem;
 }
 
-.pricing .card h4{
+.inventory .card h4{
     margin-bottom: 1rem;
     color: #fff;
     font-size: 1.2rem;
     font-weight: 500;
 }
 
-.pricing .card h3{
+.inventory .card h3{
     color: #fff;
     padding-bottom: 1rem;
     margin-bottom: 2rem;
@@ -256,24 +256,24 @@ section .header{
     border-bottom: 2px dashed #fff;
 }
 
-.pricing .card p{
+.inventory .card p{
     color: #fff;
     margin-bottom: 0.75rem;
 }
 
-.pricing .card p i{
+.inventory .card p i{
     color: #ccc;
     font-size: 1.2rem;
     margin-right: 0.3rem;
 }
 
-.pricing .card button{
+.inventory .card button{
     color: #fff;
     background-color: transparent;
     border: 2px solid #fff;
 }
 
-.pricing .card button:hover{
+.inventory .card button:hover{
     background-color: #1e40af;
     border-color: #1e40af;
 }
@@ -356,7 +356,7 @@ footer .column > a:hover{
     .features{
         grid-template-columns: repeat(2, 1fr);
     }
-    .pricing{
+    .inventory{
         grid-template-columns: repeat(2, 1fr);
     }
     footer{
@@ -373,7 +373,7 @@ footer .column > a:hover{
         grid-template-columns: repeat(1, 1fr);
     }
 
-    .pricing{
+    .inventory{
         grid-template-columns: repeat(1, 1fr);
     }
 
