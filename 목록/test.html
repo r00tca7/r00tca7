@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>목록 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .link-container {
+            max-width: 800px;
+            background: white;
+            padding: 40px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 150px; 
+            height: 150px; 
+            border-radius: 50%;
+            margin-bottom: 20px; 
+            object-fit: cover;
+        }
+
+        .link-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .link {
+            display: block;
+            padding: 15px; 
+            background-color: #5cb85c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px; 
+            width: 150px; /* 카드 크기 조정 */
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .link:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="link-container">
+        <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
+        <h1>Root Cat</h1>
+        <h2>목록</h2>
+        <div class="link-group">
+            <a href="page1/index.html" class="link">포트폴리오</a>
+            <a href="page2/index.html" class="link">텍스트 암호화</a>
+            <a href="page3/index.html" class="link">노션 포트폴리오</a>
+            <a href="page4/index.html" class="link">메세지 전송</a>
+            <a href="page5/index.html" class="link">군생활 중 공부</a>
+            <a href="page6/index.html" class="link">파일 암호화</a>
+            <a href="page7/index.html" class="link">메모장</a>
+            <a href="page8/index.html" class="link">지뢰찾기 게임</a>
+        </div>
+    </div>
+</body>
+</html>
