@@ -27,6 +27,12 @@
             width: 0;
             transition: width 0.5s;
         }
+        .progress-bar-current {
+            height: 30px;
+            background-color: #2196F3;
+            width: 0;
+            transition: width 0.5s;
+        }
         h1, h2 {
             margin: 0;
         }
@@ -39,6 +45,10 @@
         <div class="progress-bar" id="progress-bar"></div>
     </div>
     <h2 id="percentage-remaining"></h2>
+    <div class="progress">
+        <div class="progress-bar-current" id="progress-bar-current"></div>
+    </div>
+    <h2 id="percentage-current"></h2>
 
     <script>
         const startDate = new Date("2024-08-12T00:00:00");
@@ -54,11 +64,13 @@
             const percentageRemaining = (daysRemaining / totalDays) * 100;
             document.getElementById("percentage-remaining").innerText = `남은 퍼센트: ${percentageRemaining.toFixed(2)}%`;
             document.getElementById("progress-bar").style.width = `${percentageRemaining}%`;
+
+            const percentageCurrent = (daysPassed / totalDays) * 100;
+            document.getElementById("percentage-current").innerText = `진행 퍼센트: ${percentageCurrent.toFixed(2)}%`;
+            document.getElementById("progress-bar-current").style.width = `${percentageCurrent}%`;
         }
 
-        // 초기 업데이트
         updateCountdown();
-        // 1초마다 업데이트
         setInterval(updateCountdown, 1000);
     </script>
 </body>
