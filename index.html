@@ -25,6 +25,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 100; /* 다른 요소 위에 표시되도록 설정 */
         }
 
         h2 {
@@ -72,6 +73,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             display: none; /* 초기에는 숨김 */
+            z-index: 50; /* 팝업창 아래에 표시되도록 설정 */
         }
     </style>
 </head>
@@ -89,6 +91,9 @@
     <button id="openLogin">로그인하기</button>
     
     <script>
+        const correctUsername = 'goest';
+        const correctPassword = '966';
+
         document.getElementById('openLogin').addEventListener('click', function() {
             document.getElementById('loginContainer').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
@@ -100,8 +105,10 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'root' && password === 'rootcat') {
-                window.location.href = 'indexpage/index.html';
+            if (username === correctUsername && password === correctPassword) {
+                alert('로그인 성공!');
+                // 로그인 성공 후의 동작을 여기에 추가하세요.
+                // 예: window.location.href = 'indexpage/index.html';
             } else {
                 document.getElementById('message').textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
             }
