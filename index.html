@@ -16,39 +16,30 @@
         }
 
         .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
+            display: none; /* 초기에는 숨김 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         h2 {
             margin-bottom: 20px;
         }
 
-        .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-            object-fit: cover;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
         label {
             display: block;
-            margin-bottom: 5px;
+            margin: 10px 0 5px;
         }
 
         input {
             width: 100%;
             padding: 10px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -57,8 +48,8 @@
             width: 100%;
             padding: 10px;
             background-color: #5cb85c;
-            color: white;
             border: none;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -68,30 +59,35 @@
         }
 
         #message {
-            text-align: center;
-            margin-top: 15px;
             color: red;
+            margin-top: 10px;
+        }
+
+        /* 배경 어두워지기 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* 초기에는 숨김 */
         }
     </style>
 </head>
 <body>
-    <div id="loginPage" class="login-container">
-        <img src="rootcat.jpg" alt="프로필 이미지" class="profile-image">
+    <div class="overlay" id="overlay"></div>
+    <div class="login-container" id="loginContainer">
         <h2>로그인</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">아이디</label>
-                <input type="text" id="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" required>
-            </div>
-            <button type="submit">로그인</button>
-            <p id="message"></p>
-        </form>
+        <label for="username">아이디:</label>
+        <input type="text" id="username" required>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" required>
+        <button id="loginButton">로그인</button>
+        <p id="message"></p>
     </div>
-
+    <button id="openLogin">로그인하기</button>
+    
     <script src="script.js"></script>
 </body>
 </html>
