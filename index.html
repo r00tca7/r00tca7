@@ -20,12 +20,12 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none; /* 초기에는 숨김 */
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 100; /* 다른 요소 위에 표시되도록 설정 */
+            z-index: 100;
         }
 
         h2 {
@@ -64,7 +64,6 @@
             margin-top: 10px;
         }
 
-        /* 배경 어두워지기 */
         .overlay {
             position: fixed;
             top: 0;
@@ -72,8 +71,8 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* 초기에는 숨김 */
-            z-index: 50; /* 팝업창 아래에 표시되도록 설정 */
+            display: none;
+            z-index: 50;
         }
     </style>
 </head>
@@ -101,20 +100,16 @@
 
         document.getElementById('loginButton').addEventListener('click', function(event) {
             event.preventDefault();
-
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
             if (username === correctUsername && password === correctPassword) {
                 alert('로그인 성공!');
-                // 로그인 성공 후의 동작을 여기에 추가하세요.
-                // 예: window.location.href = 'indexpage/index.html';
             } else {
                 document.getElementById('message').textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
             }
         });
 
-        // 배경 클릭 시 로그인 팝업 닫기
         document.getElementById('overlay').addEventListener('click', function() {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
