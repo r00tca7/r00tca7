@@ -6,7 +6,6 @@ document.getElementById('scriptLogin').addEventListener('click', function() {
     const password = prompt('비밀번호를 입력하세요:');
 
     if (username === correctUsername && password === correctPassword) {
-        alert('로그인 성공!');
         window.location.href = 'indexpage/index.html';
     } else {
         document.getElementById('message').textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
