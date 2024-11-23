@@ -18,10 +18,10 @@
         }
 
         img {
-            width: 100px; /* 이미지 크기 조정 */
-            height: auto; /* 비율 유지 */
-            border-radius: 50%; /* 원형으로 만들기 */
-            margin-bottom: 20px; /* 이미지와 텍스트 간격 */
+            width: 100px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 20px;
         }
 
         button {
@@ -45,26 +45,10 @@
     </style>
 </head>
 <body>
-    <img src="rootcat.jpg" alt="프로필 사진"> <!-- 프로필 사진 추가 -->
-    <h2>스크립트 로그인 페이지</h2>
-    <button id="scriptLogin">스크립트에서 로그인</button>
+    <img src="rootcat.jpg" alt="프로필 사진">
+    <h2>RootCat</h2>
+    <button id="scriptLogin">로그인하기</button>
     <p id="message"></p>
-
-    <script>
-        const correctUsername = 'root';
-        const correctPassword = 'rootcat';
-
-        document.getElementById('scriptLogin').addEventListener('click', function() {
-            const username = prompt('아이디를 입력하세요:');
-            const password = prompt('비밀번호를 입력하세요:');
-
-            if (username === correctUsername && password === correctPassword) {
-                alert('로그인 성공!');
-                window.location.href = 'indexpage/index.html';
-            } else {
-                document.getElementById('message').textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
