@@ -24,20 +24,6 @@
             margin-bottom: 20px;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #4cae4c;
-        }
-
         #message {
             color: red;
             margin-top: 10px;
@@ -48,19 +34,6 @@
     <img src="rootcat.jpg" alt="프로필 사진">
     <h2>Root Cat</h2>
     <p id="message"></p>
-    <script>
-        const correctUsername = 'root';
-        const correctPassword = 'rootcat';
-
-        // 페이지 로드 시 자동으로 로그인
-        const username = prompt('아이디를 입력하세요:');
-        const password = prompt('비밀번호를 입력하세요:');
-
-        if (username === correctUsername && password === correctPassword) {
-            window.location.href = 'indexpage/index.html';
-        } else {
-            document.getElementById('message').textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
