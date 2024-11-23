@@ -1,5 +1,5 @@
-const correctUsername = 'root';
-const correctPassword = 'rootcat';
+const correctUsername = ${{ secrets.id }};
+const correctPassword = ${{ secrets.password }};
 
 document.getElementById('scriptLogin').addEventListener('click', function() {
     const username = prompt('아이디를 입력하세요:');
