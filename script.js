@@ -1,7 +1,6 @@
 const correctUsername = 'root';
 const correctPassword = 'rootcat';
 
-// 페이지 로드 시 자동으로 로그인
 const username = prompt('아이디를 입력하세요:');
 const password = prompt('비밀번호를 입력하세요:');
 
