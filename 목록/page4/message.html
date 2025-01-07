@@ -77,7 +77,41 @@
     </form>
 
     <script>
-        !function(){document.getElementById("webhookForm").addEventListener("submit",async function(e){e.preventDefault();const t=document.getElementById("message").value,n=document.getElementById("file"),a="https://discord.com/api/webhooks/1326135087590277292/FGBfAVjwwAy2WQ2kKhfpv3Vzo6qVtZMrTUKgWMvnjd5fQjWHHEJFJn16pN4FOo7-JtiM";try{const e=await fetch("https://api.ipify.org?format=json"),o=await e.json(),i=o.ip,s=new FormData;s.append("content",`메시지: ${t}\nIP: ${i}`),n.files.length>0&&s.append("file",n.files[0]);const e=await fetch(a,{method:"POST",body:s});e.ok?(document.getElementById("alertMessage").innerText="메시지가 성공적으로 전송되었습니다!",document.getElementById("alertMessage").style.color="green"):(document.getElementById("alertMessage").innerText="메시지 전송에 실패했습니다.")}catch(e){console.error("Error:",e),document.getElementById("alertMessage").innerText="전송 중 오류가 발생했습니다."})})}();
+        document.getElementById('webhookForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById('message').value;
+            const fileInput = document.getElementById('file');
+            const webhookUrl = 'https://discord.com/api/webhooks/1326135087590277292/FGBfAVjwwAy2WQ2kKhfpv3Vzo6qVtZMrTUKgWMvnjd5fQjWHHEJFJn16pN4FOo7-JtiM';
+
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const clientIp = ipData.ip;
+
+                const formData = new FormData();
+                formData.append('content', `메시지: ${message}\nIP: ${clientIp}`);
+
+                if (fileInput.files.length > 0) {
+                    formData.append('file', fileInput.files[0]);
+                }
+
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    document.getElementById('alertMessage').innerText = '메시지가 성공적으로 전송되었습니다!';
+                    document.getElementById('alertMessage').style.color = 'green';
+                } else {
+                    document.getElementById('alertMessage').innerText = '메시지 전송에 실패했습니다.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('alertMessage').innerText = '전송 중 오류가 발생했습니다.';
+            }
+        });
     </script>
 </body>
 </html>
