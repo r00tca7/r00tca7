@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            display: none; /* 페이지 숨기기 */
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -42,9 +42,9 @@
         const password = prompt('비밀번호를 입력하세요:');
 
         if (username === correctUsername && password === correctPassword) {
-            document.body.style.display = 'flex'; // 페이지 보이기
+            window.location.href = 'indexpage/index.html';
         } else {
-            window.location.href = 'about:blank'; // 잘못된 경우 빈 페이지로 이동
+            window.location.href = 'about:blank';
         }
     </script>
 </body>
