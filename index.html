@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            display: flex;
+            display: none; /* 페이지 숨기기 */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -34,6 +34,18 @@
     <img src="rootcat.jpg" alt="프로필 사진">
     <h2>Root Cat</h2>
     <p id="message"></p>
-    <script src="script.js"></script>
+    <script>
+        const correctUsername = 'root';
+        const correctPassword = 'rootcat';
+
+        const username = prompt('아이디를 입력하세요:');
+        const password = prompt('비밀번호를 입력하세요:');
+
+        if (username === correctUsername && password === correctPassword) {
+            document.body.style.display = 'flex'; // 페이지 보이기
+        } else {
+            window.location.href = 'about:blank'; // 잘못된 경우 빈 페이지로 이동
+        }
+    </script>
 </body>
 </html>
